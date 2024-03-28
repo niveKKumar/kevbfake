@@ -110,30 +110,23 @@ export default defineComponent({
 });
 </script>
 <template>
-  <div
-    class="block w-[100%] bg-black rounded-lg shadow-md sm:w-auto border border-white p-3 sm:max-w-fit sm:h-[100%]">
+  <div class="block w-[100%] bg-black rounded-lg shadow-md sm:w-auto border border-white p-3 sm:max-w-fit sm:h-[100%]">
     <div class="flex flex-col">
       <div class="flex items-center sm:justify-center">
-        <img
-          referrerpolicy="no-referrer"
-          v-bind:src="
-            user.profilePicture
-              ? user.profilePicture.url
-              : 'https://ui-avatars.com/api/?length=1' +
-                '&name=' +
-                user.username +
-                '&background=' +
-                color
-          "
-          class="w-10 rounded-[50%] sm:w-28 m-3"
-          @error="
-            'https://ui-avatars.com/api/?length=1' +
-              '&name=' +
-              user.username +
-              '&background=' +
-              color
-          "
-          alt="pofilepic" />
+        <img referrerpolicy="no-referrer" v-bind:src="user.profilePicture
+          ? user.profilePicture.url
+          : 'https://ui-avatars.com/api/?length=1' +
+          '&name=' +
+          user.username +
+          '&background=' +
+          color
+          " class="w-10 rounded-[50%] sm:w-28 m-3" @error="
+    'https://ui-avatars.com/api/?length=1' +
+    '&name=' +
+    user.username +
+    '&background=' +
+    color
+    " alt="pofilepic" />
         <div>
           <div>
             <span class="font-bold ml-3">
@@ -157,67 +150,44 @@ export default defineComponent({
         </div>
         <div>
           <!-- Add trash icon -->
-          <img
-            class="cursor-pointer h-6 ml-20"
-            @click="this.$store.dispatch('deletePost')"
-            v-if="isOwner"
-            src="../../assets/icons8-trash-can.svg"
-            alt="trash" />
+          <img class="cursor-pointer h-6 ml-20" @click="this.$store.dispatch('deletePost')" v-if="isOwner"
+            src="../../assets/icons8-trash-can.svg" alt="trash" />
         </div>
         <PopupModal v-if="showModal" @close="showModal = false">
           <template v-slot:body>
-            <iframe
-              title="map"
-              class="ml-3"
-              width="300"
-              height="300"
-              style="border: 0"
-              loading="lazy"
-              v-if="curpost.location"
-              allowfullscreen
-              referrerpolicy="no-referrer-when-downgrade"
+            <iframe title="map" class="ml-3" width="300" height="300" style="border: 0" loading="lazy"
+              v-if="curpost.location" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
               :src="`https://www.google.com/maps/embed/v1/place?key=AIzaSyBR4u3SrXLjJ7sdfvj3ltu4DvjVmiXnh18&q=${this.curpost.location.latitude}, ${this.curpost.location.longitude}`">
             </iframe>
           </template>
         </PopupModal>
       </div>
       <div class="flex items-center justify-center">
-        <Carousel
-          v-if="post.length > 1"
-          :length="post.length"
-          @scroll="scrollCarousel">
-          <div
-            class="relative flex-shrink-0 snap-start w-[100%] snap-normal"
-            v-for="p in post">
-            <img
-              referrerpolicy="no-referrer"
-              v-bind:src="p.primary.url"
-              class="relative top-0 left-0 rounded-md w-[400px]"
-              @click="hideSecondaryPhoto = !hideSecondaryPhoto"
+        <Carousel v-if="post.length > 1" :length="post.length" @scroll="scrollCarousel">
+          <div class="relative flex-shrink-0 snap-start w-[100%] snap-normal" v-for="p in post">
+            <img referrerpolicy="no-referrer" v-bind:src="p.primary.url"
+              class="relative top-0 left-0 rounded-md w-[400px]" @click="hideSecondaryPhoto = !hideSecondaryPhoto"
               alt="postImage" />
-            <img
-              referrerpolicy="no-referrer"
-              v-bind:src="p.secondary.url"
-              class="absolute top-2 left-2 w-[35%] rounded-md border-2 border-black"
-              @click="reverseImages"
-              v-if="!hideSecondaryPhoto"
-              alt="postImage" />
+            <img referrerpolicy="no-referrer" v-bind:src="p.secondary.url"
+              class="absolute top-2 left-2 w-[35%] rounded-md border-2 border-black" @click="reverseImages"
+              v-if="!hideSecondaryPhoto" alt="postImage" />
+            <a v-if="curpost.btsMedia" v-bind:href="curpost.btsMedia.url"
+              class="absolute top-2 right-2 bg-black px-2 rounded-md" target="_blank">
+              <button class="text-white">bts</button>
+            </a>
           </div>
         </Carousel>
         <div class="relative top-0 left-0 justify-center" v-else>
-          <img
-            referrerpolicy="no-referrer"
-            v-bind:src="curpost.primary.url"
+          <img referrerpolicy="no-referrer" v-bind:src="curpost.primary.url"
             class="relative top-0 left-0 rounded-md sm:w-[400px] w-[100%]"
-            @click="hideSecondaryPhoto = !hideSecondaryPhoto"
-            alt="postImage" />
-          <img
-            referrerpolicy="no-referrer"
-            v-bind:src="curpost.secondary.url"
-            class="absolute top-2 left-2 w-[35%] rounded-md border-2 border-black"
-            @click="reverseImages"
-            v-if="!hideSecondaryPhoto"
-            alt="postImage" />
+            @click="hideSecondaryPhoto = !hideSecondaryPhoto" alt="postImage" />
+          <img referrerpolicy="no-referrer" v-bind:src="curpost.secondary.url"
+            class="absolute top-2 left-2 w-[35%] rounded-md border-2 border-black" @click="reverseImages"
+            v-if="!hideSecondaryPhoto" alt="postImage" />
+          <a v-if="curpost.btsMedia" v-bind:href="curpost.btsMedia.url"
+            class="absolute top-2 right-2 bg-black px-2 rounded-md" target="_blank">
+            <button class="text-white">bts</button>
+          </a>
         </div>
       </div>
 
@@ -241,21 +211,12 @@ export default defineComponent({
         <Realmoji :key="e.id" :realmoji="e" v-for="e in curpost.realMojis" />
       </div>
       <div class="flex justify-end">
-        <UploadRealmoji
-          v-if="!isOwner"
-          :postID="curpost.id"
-          :postOwnerID="user.id" />
+        <UploadRealmoji v-if="!isOwner" :postID="curpost.id" :postOwnerID="user.id" />
       </div>
     </div>
     <div class="flex mb-5">
-      <MyInput
-        @enterPressed="submitComment"
-        v-model="comment"
-        placeholder="Comment"
-        typeOfInput="text" />
-      <MyButton @clickedd="submitComment" :loading="submitCommentLoading"
-        >Submit</MyButton
-      >
+      <MyInput @enterPressed="submitComment" v-model="comment" placeholder="Comment" typeOfInput="text" />
+      <MyButton @clickedd="submitComment" :loading="submitCommentLoading">Submit</MyButton>
     </div>
   </div>
 </template>
